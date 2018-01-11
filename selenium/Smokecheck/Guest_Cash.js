@@ -9,7 +9,6 @@ const driver = new webdriver.Builder()
 
 driver.manage().window().maximize().then(function startTest() {
 	driver.get(config.url.live);
-// Sensitive Data excluded and labeled as TEST_DATA
 	driver.findElement(By.xpath("//*[@data-qa='address-field']")).sendKeys('TEST_DATA');
 	driver.findElement(By.xpath("//*[@data-qa='find_restaurants']")).click();
 	driver.wait(function() {
