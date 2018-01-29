@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# Automated Testing #
+#####################
+/tests_output/**
