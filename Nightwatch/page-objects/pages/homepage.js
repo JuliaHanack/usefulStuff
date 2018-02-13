@@ -1,8 +1,9 @@
-const TEST_DATA = require('../../testdata.js');
+// NOTE: testdata & config not included in this project
+const TestData = require('../../testdata.js');
 
 module.exports = {
     url() {
-        return `${TEST_DATA.url}/`;
+        return `${TestData.url}/`;
     },
     commands: [],
     elements: {}
