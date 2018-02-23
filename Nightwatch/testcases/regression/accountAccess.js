@@ -1,16 +1,11 @@
-// NOTE: testdata & config not included in this project
-const TestData = require('../../testdata');
-
 module.exports = {
-    '@disabled': false,
-    '@tags': [],
-    Login: browser =>  {
-    const loginHomepage = browser.page['loginHomepage']();
+    Login(browser) {
+        const login = browser.page['login']();
         browser.page['homepage']().navigate();
-        loginHomepage.login();
+        login.loginHomepage();
     },
 
-    Logout: browser =>  {
+    Logout(browser) {
         browser.waitForElementVisible('[data-qa="logged-in-control"]')
             .click('[data-qa="logged-in-control"]');
         browser.assert.elementPresent('[data-qa="logout"]')
@@ -19,11 +14,8 @@ module.exports = {
         browser.expect.element('[data-qa="logged-out-control"]').text.to.contain('Konto'.toUpperCase());
     },
 
-    Register: browser =>  {
-    const chars = 'abcdefghijklmnopqrstuvwxyz';
-    const randomEmail = chars[Math.floor(Math.random()*26)]
-                        + Math.random().toString(36).substring(2,11)
-                        + '@lhweb.de';
+    Register(browser) {
+        const randomEmail = Math.random().toString(36).substring(2, 11).concat('@test.de');
         browser.waitForElementVisible('[data-qa="logged-out-control"]')
             .click('[data-qa="logged-out-control"]');
         browser.assert.elementPresent('[id="register"]')
