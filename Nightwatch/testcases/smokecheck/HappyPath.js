@@ -1,35 +1,31 @@
-// NOTE: testdata & config not included in this project
-const TestData = require('../../testdata');
-
 module.exports = {
-    '@disabled': false,
-    '@tags': [],
-    Homepage: browser =>  {
+    Homepage(browser) {
         const searchAddress = browser.page['searchAddress']();
         browser.page['homepage']().navigate();
         searchAddress.addressInput();
     },
 
-    RestaurantList: browser =>  {
+    RestaurantList(browser) {
         const restaurantlist = browser.page['restaurantList']();
         restaurantlist.searchRestaurant();
     },
 
-    MenuPage: browser =>  {
+    MenuPage(browser) {
         const menupage = browser.page['menuPage']();
         menupage.addFoodToCart();
         menupage.addDrinkToCart();
         menupage.proceedToCheckout();
     },
 
-    CheckoutPage: browser =>  {
+    CheckoutPage(browser) {
         const checkoutpage = browser.page['checkout']();
-        checkoutpage.login();
+        const login = browser.page['login']();
+        login.loginCheckout();
         checkoutpage.selectPreorder();
         checkoutpage.finalizeOrder();
     },
 
-    OrderConfirmationPage: browser =>  {
+    OrderConfirmationPage(browser) {
         const orderConfirmationPage = browser.page['orderConfirmation']();
         orderConfirmationPage.orderStatus();
         orderConfirmationPage.cartStatus();

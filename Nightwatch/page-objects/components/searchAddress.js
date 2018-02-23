@@ -1,6 +1,4 @@
 // NOTE: testdata & config not included in this project
-const TestData = require('../../testdata.js');
-
 const addressSearchCommands = {
     addressInput() {
         this.waitForElementPresent('[data-qa="address-field"]')
@@ -15,5 +13,5 @@ module.exports = {
     elements: {
         addressField: '[data-qa="address-field"]',
         submitAddress: '[data-qa="find_restaurants"]'
-    },
+    }
 };
