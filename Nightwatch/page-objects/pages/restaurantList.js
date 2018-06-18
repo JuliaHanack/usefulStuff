@@ -1,4 +1,7 @@
 // NOTE: testdata & config not included in this project
+const locales = require('../de-DE');
+const TestData = require('../testdata.js');
+
 const restaurantListCommands = {
     checkCuisine() {
         this.expect.element('@burgerCuisine').to.be.present;
@@ -15,7 +18,7 @@ const restaurantListCommands = {
         this.expect.element('@filterMov').to.be.present;
         this.click('@movMax10');
         this.waitForElementNotPresent('@groupOverlay');
-        this.expect.element('@movValue').text.to.contain('Bis 10€');
+        this.expect.element('@movValue').text.to.contain(locales.movAndDf.indicator10);
     },
 
     checkSorting() {
@@ -39,24 +42,32 @@ const restaurantListCommands = {
 
     resetFilters() {
         this.waitForElementPresent('@noResults');
-        this.expect.element('@noResults').text.to.contain('Leider können wir keine Lieferservices in deinem Liefergebiet finden.');
+        this.expect.element('@noResults').text.to.contain(locales.noFoundRestaurants.message);
         this.assert.elementPresent('@resetFilter')
             .click('@resetFilter');
-        this.expect.element('@recommendedGroup').text.to.equal('EMPFOHLENE RESTAURANTS');
-        this.expect.element('@movValue').text.to.equal('Egal');
+        this.expect.element('@recommendedGroup').text.to.equal(locales.restaurantGroups.title.recommended.toUpperCase());
+        this.expect.element('@movValue').text.to.equal(locales.movAndDf.message.showAll);
     },
 
     searchGoto() {
-        this.waitForElementPresent('@gotoSlider');
-        this.expect.element('@gotoTitle').text.to.equal('Deine letzten Lieferservices'.toUpperCase());
-        this.expect.element('@gotoRestaurant').text.to.equal(TestData.testRestaurantName);
-        this.click('@gotoRestaurant');
+        this.isVisible('@gotoTitle', result => {
+            if (result.value === true) {
+                console.log('=> Slider is visible');
+                this.expect.element('@gotoTitle').text.to.equal(locales.contentSlider.headings.goTo.toUpperCase());
+                this.expect.element('@gotoRestaurant').text.to.equal(TestData.emailRestaurantName);
+                this.click('@gotoRestaurant');
+            } else {
+                console.log('=> Slider is not visible');
+                this.expect.element('@emailRestaurant').to.be.visible;
+                this.click('@emailRestaurant');
+            }
+        });
     },
 
     searchRestaurant() {
         this.expect.element('@deliveryAddress').text.to.equal(TestData.searchAddress);
-        this.expect.element('@recommendedGroup').text.to.equal('EMPFOHLENE RESTAURANTS');
-        this.click(`[title="${TestData.testRestaurantName}"]`);
+        this.expect.element('@recommendedGroup').text.to.equal(locales.restaurantGroups.title.recommended.toUpperCase());
+        this.click(`[title="${TestData.emailRestaurantName}"]`);
     }
 };
 
@@ -76,7 +87,7 @@ module.exports = {
             locateStrategy: 'xpath'
         },
         gotoRestaurant: {
-            selector: '//*[@id="restaurants-slider"]/div/div[2]/div/div/div[1]/div/a',
+            selector: '//*[@id="restaurants-slider"]/div/div[2]/div/div/div[1]/div/a/div[1]',
             locateStrategy: 'xpath'
         },
         movMax10: {
@@ -96,7 +107,7 @@ module.exports = {
             locateStrategy: 'xpath'
         },
         sortByDistance: {
-            selector: '//*[@title="Distanz"]',
+            selector: '//*[@title="Entfernung"]',
             locateStrategy: 'xpath'
         },
         sortByMov: {
@@ -119,7 +130,8 @@ module.exports = {
         groupOverlay: '[class="rl-overlay"]',
         noResults: '[class="no-restaurants-info"]',
         paginationButton: '[class="ghost-dark-button-m js-fetch-more"]',
-        recommendButton: '[class="secondary-dark-button-m js-recommend-form-trigger content-block__button"]',
-        recommendedGroup: '[class="title with-description"]'
+        recommendButton: '[class="ghost-dark-button-l js-recommend-form-trigger content-block__button"]',
+        recommendedGroup: '[class="title with-description"]',
+        restaurantName: '[class="restaurant__info__name "]'
     }
 };
