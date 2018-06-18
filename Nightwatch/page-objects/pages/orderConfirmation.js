@@ -1,8 +1,11 @@
-// NOTE: testdata & config not included in this project
+const locales = require('../de-DE');
+const TestData = require('../testdata.js');
+
 const orderConfirmationPageCommands = {
     cartStatus() {
-        this.expect.element('@restaurantName').text.to.contain(TestData.testRestaurantName);
+        this.expect.element('@restaurantName').text.to.contain(TestData.emailRestaurantName);
         this.expect.element('@shoppingCart').to.be.present;
+        this.expect.element('@payback').text.to.contain(locales.order.payback.assumedPoints);
     },
 
     customerStatus() {
@@ -14,17 +17,18 @@ const orderConfirmationPageCommands = {
 
     orderStatus() {
         this.waitForElementPresent('@orderSuccess');
-        this.expect.element('@orderSuccess').text.to.contain('Erwarteter Lieferzeitpunkt: morgen gegen 1:00 Uhr');
+        this.expect.element('@orderSuccess').text.to.contain('Erwarteter Lieferzeitpunkt');
     }
 };
 
 module.exports = {
     commands: [orderConfirmationPageCommands],
     elements: {
-        chatButton: '[data-qa="ocp_chat"]',
-        customerAddress: '[data-qa="ocp_address"]',
+        chatButton: '[data-qa="chat"]',
+        customerAddress: '[data-qa="address-ocp"]',
         orderSuccess: '[class="order-status success"]',
-        restaurantName: '[data-qa="ocp_restaurantName"]',
-        shoppingCart: '[data-qa="ocp_cart"]'
+        payback: '[data-qa="payback-assumedPoints-ocp"]',
+        restaurantName: '[data-qa="restaurantName-ocp"]',
+        shoppingCart: '[data-qa="cart-ocp"]'
     }
 };
