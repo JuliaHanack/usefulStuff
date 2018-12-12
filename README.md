@@ -1,4 +1,4 @@
-# usefulStuff
+# Introduction
 
 In this repository I store some random files for future reference I came upon my work as a QA Engineer. Most of the data are related to UI automation with a focus on Selenium and NightwatchJS.
 
